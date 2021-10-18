@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.models;
+package nashtech.longtran.shoppingweb.entity;
 
 public enum ERole {
     ROLE_USER,

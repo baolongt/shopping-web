@@ -1,6 +1,6 @@
 package nashtech.longtran.shoppingweb.apis;
 
-import nashtech.longtran.shoppingweb.models.Product;
+import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

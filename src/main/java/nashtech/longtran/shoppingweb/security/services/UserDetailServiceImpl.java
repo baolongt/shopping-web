@@ -1,6 +1,6 @@
 package nashtech.longtran.shoppingweb.security.services;
 
-import nashtech.longtran.shoppingweb.models.User;
+import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

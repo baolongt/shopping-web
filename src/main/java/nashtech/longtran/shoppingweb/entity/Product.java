@@ -1,27 +1,23 @@
-package nashtech.longtran.shoppingweb.models;
+package nashtech.longtran.shoppingweb.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name ="product")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "name")
     private String name;
 
-    public Role(Integer id, String name) {
-        this.id = id;
+    public Product(String name) {
         this.name = name;
     }
 
@@ -39,5 +35,9 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String toString(){
+        return id + " " + name;
     }
 }

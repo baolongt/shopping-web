@@ -1,8 +1,8 @@
 package nashtech.longtran.shoppingweb.apis;
 
-import nashtech.longtran.shoppingweb.models.ERole;
-import nashtech.longtran.shoppingweb.models.Role;
-import nashtech.longtran.shoppingweb.models.User;
+import nashtech.longtran.shoppingweb.entity.ERole;
+import nashtech.longtran.shoppingweb.entity.Role;
+import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.payload.request.LoginRequest;
 import nashtech.longtran.shoppingweb.payload.request.SignupRequest;
 import nashtech.longtran.shoppingweb.payload.response.JwtResponse;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -82,41 +83,14 @@ public class AuthController {
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
-                passwordEncoder.encode(signUpRequest.getPassword()),
-                signUpRequest.getEmail());
-
-        Set<String> strRoles = signUpRequest.getRole();
+                signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+        Role defaultRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));;
         Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-        roles.forEach(user::setRole);
+        roles.add(defaultRole);
+        user.setRoles(roles);
         userRepository.save(user);
-
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

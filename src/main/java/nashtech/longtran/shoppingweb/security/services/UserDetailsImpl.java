@@ -1,7 +1,7 @@
 package nashtech.longtran.shoppingweb.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import nashtech.longtran.shoppingweb.models.User;
+import nashtech.longtran.shoppingweb.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -39,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(User user){
         List<GrantedAuthority> authorityList = new LinkedList<>();
-        authorityList.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        authorityList.add(new SimpleGrantedAuthority(user.getRoles().toString()));
         return new UserDetailsImpl(user.getUsername(), user.getPassword(),
                 user.getFirstname(), user.getLastname(), user.getEmail(), authorityList);
     }

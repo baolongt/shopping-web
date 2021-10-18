@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.models;
+package nashtech.longtran.shoppingweb.entity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,26 +18,31 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     private String firstname;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastname;
 
     @Column(name = "email")
     private String email;
 
-    public User(String username, String password, String email) {
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.ALL
+    })
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_username"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public User(String username, String email, String password) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstname = "";
         this.lastname = "";
     }
-
-    @OneToOne(cascade = CascadeType.ALL)
-
-    private Role role = new Role();
 
     public String getUsername() {
         return username;
@@ -73,6 +78,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

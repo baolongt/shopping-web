@@ -2,6 +2,6 @@
     <persistence-unit name="my-persistence-unit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Entity classes -->
-        <class>nashtech.longtran.shoppingweb.models.Product</class>
+        <class>nashtech.longtran.shoppingweb.entity.Product</class>
     </persistence-unit>
 </persistence>
