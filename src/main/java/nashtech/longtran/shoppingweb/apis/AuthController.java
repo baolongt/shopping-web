@@ -10,7 +10,7 @@ import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
 import nashtech.longtran.shoppingweb.repository.RoleRepository;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
 import nashtech.longtran.shoppingweb.security.jwt.JwtUtils;
-import nashtech.longtran.shoppingweb.security.services.UserDetailsImpl;
+import nashtech.longtran.shoppingweb.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

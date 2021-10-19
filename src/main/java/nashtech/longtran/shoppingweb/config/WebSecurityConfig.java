@@ -2,7 +2,7 @@ package nashtech.longtran.shoppingweb.config;
 
 import nashtech.longtran.shoppingweb.security.jwt.AuthEntryPointJwt;
 import nashtech.longtran.shoppingweb.security.jwt.AuthTokenFilter;
-import nashtech.longtran.shoppingweb.security.services.UserDetailServiceImpl;
+import nashtech.longtran.shoppingweb.services.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

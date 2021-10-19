@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.security.services;
+package nashtech.longtran.shoppingweb.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import nashtech.longtran.shoppingweb.entity.User;
