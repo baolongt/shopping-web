@@ -3,8 +3,9 @@ package nashtech.longtran.shoppingweb.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,4 +20,8 @@ public class Category {
 
     @Column(name = "category_name")
     private String name;
+
+    public Category(String name){
+        this.name = name;
+    }
 }

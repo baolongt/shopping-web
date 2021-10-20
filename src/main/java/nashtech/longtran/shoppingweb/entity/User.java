@@ -1,11 +1,11 @@
 package nashtech.longtran.shoppingweb.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -15,6 +15,7 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -27,6 +28,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
