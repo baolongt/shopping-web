@@ -41,6 +41,9 @@ public class Product {
     @Column(name = "updated_date")
     private Timestamp updatedDate;
 
+    @Column(name = "imgurl")
+    private String imgURL;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
