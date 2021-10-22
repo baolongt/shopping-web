@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-@Table(name ="product_rating")
+@Table(name ="rating")
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,11 @@ public class Rating {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
-    private User username;
+    private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product productID;
+    private Product product;
 
     @Column(name = "rating_point")
     private float ratingPoint;
@@ -31,9 +31,9 @@ public class Rating {
     @Column(name = "rating_content")
     private String ratingContent;
 
-    public Rating(User username, Product productID, float ratingPoint, String ratingContent) {
-        this.username = username;
-        this.productID = productID;
+    public Rating(User user, Product product, float ratingPoint, String ratingContent) {
+        this.user = user;
+        this.product = product;
         this.ratingPoint = ratingPoint;
         this.ratingContent = ratingContent;
     }

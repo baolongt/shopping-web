@@ -23,7 +23,7 @@ public class RatingController {
 
     @Autowired
     UserRepository userRepo;
-
+// TODO only for user who buy it
     @GetMapping("/add")
     public ResponseEntity<?> addNewRating(@RequestBody RatingRequest request){
         Rating newRating;
@@ -31,7 +31,7 @@ public class RatingController {
             User user = userRepo.findByUsername(request.getUsername())
                     .orElseThrow(() -> new RuntimeException("Error: Username not found."));
             Product product = productRepo.findById(request.getProductID())
-                    .orElseThrow(() -> new RuntimeException("Error: Username not found."));
+                    .orElseThrow(() -> new RuntimeException("Error: Product not found."));
             newRating = new Rating(user, product,
                     request.getRatingPoint(), request.getRatingContent());
             ratingRepo.save(newRating);
