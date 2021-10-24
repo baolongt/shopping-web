@@ -63,4 +63,19 @@ public class Product {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", brand='" + brand + '\'' +
+                ", detail='" + detail + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", imgURL='" + imgURL + '\'' +
+                ", categories=" + categories +
+                '}';
+    }
 }

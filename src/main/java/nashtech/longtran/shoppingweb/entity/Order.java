@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name ="order")
+@Table(name ="orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,19 +23,30 @@ public class Order {
     @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 
+    @Column(name = "address")
     private String address;
 
+    @Column(name = "status")
     private String status;
 
-    private Timestamp date;
+    @Column(name = "date")
+    private Timestamp createDate;
 
-    @OneToMany(mappedBy="order")
-    private Set<OrderDetail> products;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", date=" + createDate +
+                '}';
+    }
 
     public Order(User user, String address, String status, Timestamp date) {
         this.user = user;
         this.address = address;
         this.status = status;
-        this.date = date;
+        this.createDate = date;
     }
 }

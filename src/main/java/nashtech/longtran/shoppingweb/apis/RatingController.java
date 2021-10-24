@@ -38,7 +38,7 @@ public class RatingController {
         }
         catch (Exception e){
             return ResponseEntity
-                    .ok(new MessageResponse("error", null, "add rating fail"));
+                    .ok(new MessageResponse("Error", null, e.getMessage()));
         }
         return ResponseEntity
                 .ok(new MessageResponse("success", newRating, "add rating sucess"));

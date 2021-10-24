@@ -57,7 +57,7 @@ public class ProductController {
         }
         catch (Exception e){
             return ResponseEntity
-                    .ok(new MessageResponse("error", null, "add new product fail"));
+                    .ok(new MessageResponse("Error", null, e.getMessage()));
         }
         return ResponseEntity
                 .ok(new MessageResponse("success", null, "add new product success"));
@@ -77,9 +77,8 @@ public class ProductController {
             productRepo.save(product);
         }
         catch (Exception e){
-            System.out.println(e);
             return ResponseEntity
-                    .ok(new MessageResponse("error", null, "edit product fail"));
+                    .ok(new MessageResponse("Error", null, e.getMessage()));
         }
         return ResponseEntity
                 .ok(new MessageResponse("success", product, "edit product success"));
