@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/rating/", method = RequestMethod.GET)
 public class RatingController {
@@ -24,7 +26,7 @@ public class RatingController {
     @Autowired
     UserRepository userRepo;
 // TODO only for user who buy it
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addNewRating(@RequestBody RatingRequest request){
         Rating newRating;
         try{
@@ -41,6 +43,38 @@ public class RatingController {
                     .ok(new MessageResponse("Error", null, e.getMessage()));
         }
         return ResponseEntity
-                .ok(new MessageResponse("success", newRating, "add rating sucess"));
+                .ok(new MessageResponse("Success", newRating, "Add rating sucess"));
+    }
+
+    @GetMapping("/getByProduct")
+    public ResponseEntity<?> getByProduct(@RequestParam int productID){
+        Product product;
+        List<Rating> ratingList;
+        try{
+            product = productRepo.findById(productID)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+            ratingList = ratingRepo.findByProduct(product);
+        }
+        catch (Exception e){
+            return ResponseEntity
+                    .ok(new MessageResponse("Error", null, e.getMessage()));
+        }
+        return ResponseEntity
+                .ok(new MessageResponse("Success", ratingList, "Get success"));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteRateing(@RequestParam int ratingID){
+        Product product;
+        try{
+            Rating rating = ratingRepo.findById(ratingID)
+                    .orElseThrow(() -> new RuntimeException("Rating not found"));
+        }
+        catch (Exception e){
+            return ResponseEntity
+                    .ok(new MessageResponse("Error", null, e.getMessage()));
+        }
+        return ResponseEntity
+                .ok(new MessageResponse("Success", null, "Deleted"));
     }
 }

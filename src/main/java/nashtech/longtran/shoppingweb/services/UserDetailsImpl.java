@@ -10,10 +10,12 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
     private String username;
+
     @JsonIgnore
     private String password;
 
@@ -37,8 +39,9 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user){
-        List<GrantedAuthority> authorityList = new LinkedList<>();
-        authorityList.add(new SimpleGrantedAuthority(user.getRoles().toString()));
+        List<GrantedAuthority> authorityList = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+                .collect(Collectors.toList());
         return new UserDetailsImpl(user.getUsername(), user.getPassword(),
                 user.getFirstname(), user.getLastname(), user.getEmail(), authorityList);
     }
@@ -98,7 +101,7 @@ public class UserDetailsImpl implements UserDetails {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", lasname='" + lastname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
