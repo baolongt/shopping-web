@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.service.implement;
+package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.entity.Product;
@@ -8,7 +8,7 @@ import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
 import nashtech.longtran.shoppingweb.payload.request.ProductEditRequest;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.service.IProductService;
+import nashtech.longtran.shoppingweb.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

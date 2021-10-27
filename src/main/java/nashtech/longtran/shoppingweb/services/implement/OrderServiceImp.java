@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.service.implement;
+package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.entity.Order;
 import nashtech.longtran.shoppingweb.entity.OrderDetail;
@@ -13,7 +13,7 @@ import nashtech.longtran.shoppingweb.repository.OrderDetailRepository;
 import nashtech.longtran.shoppingweb.repository.OrdersRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.IOrderService;
+import nashtech.longtran.shoppingweb.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 @Service

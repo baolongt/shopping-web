@@ -1,13 +1,8 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.entity.User;
-import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
-import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.implement.UserServiceImp;
+import nashtech.longtran.shoppingweb.services.implement.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

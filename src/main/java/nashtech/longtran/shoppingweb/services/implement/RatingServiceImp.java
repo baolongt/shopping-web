@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.service.implement;
+package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.Rating;
@@ -8,7 +8,7 @@ import nashtech.longtran.shoppingweb.payload.request.RatingRequest;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.repository.RatingRepository;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.IRatingService;
+import nashtech.longtran.shoppingweb.services.IRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

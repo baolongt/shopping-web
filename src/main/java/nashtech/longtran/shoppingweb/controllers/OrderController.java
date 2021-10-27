@@ -1,29 +1,13 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.entity.Order;
-import nashtech.longtran.shoppingweb.entity.OrderDetail;
-import nashtech.longtran.shoppingweb.entity.Product;
-import nashtech.longtran.shoppingweb.entity.User;
-import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
 import nashtech.longtran.shoppingweb.payload.request.EditOrderStatusRequest;
 import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
-import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
-import nashtech.longtran.shoppingweb.repository.OrderDetailRepository;
-import nashtech.longtran.shoppingweb.repository.OrdersRepository;
-import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.implement.OrderServiceImp;
+import nashtech.longtran.shoppingweb.services.implement.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/v1/order/")

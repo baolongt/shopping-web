@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.service;
+package nashtech.longtran.shoppingweb.services;
 
 import nashtech.longtran.shoppingweb.entity.Order;
 import nashtech.longtran.shoppingweb.entity.OrderDetail;

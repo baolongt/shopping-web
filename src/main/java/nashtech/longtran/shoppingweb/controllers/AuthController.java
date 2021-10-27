@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
 import nashtech.longtran.shoppingweb.enums.ERole;
 import nashtech.longtran.shoppingweb.entity.Role;
@@ -10,7 +10,7 @@ import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
 import nashtech.longtran.shoppingweb.repository.RoleRepository;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
 import nashtech.longtran.shoppingweb.security.jwt.JwtUtils;
-import nashtech.longtran.shoppingweb.services.UserDetailsImpl;
+import nashtech.longtran.shoppingweb.services.implement.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

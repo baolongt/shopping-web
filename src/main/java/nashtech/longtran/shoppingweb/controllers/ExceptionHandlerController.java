@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
 import nashtech.longtran.shoppingweb.constant.Error;
 import nashtech.longtran.shoppingweb.exception.*;

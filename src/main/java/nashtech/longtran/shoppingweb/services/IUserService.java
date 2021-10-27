@@ -1,7 +1,6 @@
-package nashtech.longtran.shoppingweb.service;
+package nashtech.longtran.shoppingweb.services;
 
 import nashtech.longtran.shoppingweb.dto.UserDTO;
-import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.payload.request.UserInfoEditRequest;
 
 public interface IUserService {

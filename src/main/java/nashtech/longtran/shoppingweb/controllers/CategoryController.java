@@ -1,16 +1,12 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.entity.Category;
-import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
-import nashtech.longtran.shoppingweb.repository.CategoryRepository;
-import nashtech.longtran.shoppingweb.service.implement.CategoryServiceImp;
+import nashtech.longtran.shoppingweb.services.implement.CategoryServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController

@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.service;
+package nashtech.longtran.shoppingweb.services;
 
 import nashtech.longtran.shoppingweb.entity.Rating;
 import nashtech.longtran.shoppingweb.payload.request.RatingRequest;

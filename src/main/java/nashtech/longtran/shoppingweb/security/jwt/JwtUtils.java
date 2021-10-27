@@ -1,7 +1,7 @@
 package nashtech.longtran.shoppingweb.security.jwt;
 
 import io.jsonwebtoken.*;
-import nashtech.longtran.shoppingweb.services.UserDetailsImpl;
+import nashtech.longtran.shoppingweb.services.implement.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

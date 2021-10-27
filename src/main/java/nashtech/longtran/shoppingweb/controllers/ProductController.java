@@ -1,23 +1,14 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.entity.Category;
-import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
 import nashtech.longtran.shoppingweb.payload.request.ProductEditRequest;
-import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
-import nashtech.longtran.shoppingweb.repository.CategoryRepository;
-import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.service.implement.ProductServiceImp;
+import nashtech.longtran.shoppingweb.services.implement.ProductServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
-import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/product/", method = RequestMethod.GET)

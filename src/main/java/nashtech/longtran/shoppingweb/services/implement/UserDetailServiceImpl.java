@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.services;
+package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.repository.UserRepository;

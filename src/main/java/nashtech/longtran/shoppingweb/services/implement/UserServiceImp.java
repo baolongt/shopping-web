@@ -1,10 +1,10 @@
-package nashtech.longtran.shoppingweb.service.implement;
+package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.dto.UserDTO;
 import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.payload.request.UserInfoEditRequest;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.IUserService;
+import nashtech.longtran.shoppingweb.services.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,21 +1,12 @@
-package nashtech.longtran.shoppingweb.restController;
+package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.entity.Product;
-import nashtech.longtran.shoppingweb.entity.Rating;
-import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.payload.request.RatingRequest;
-import nashtech.longtran.shoppingweb.payload.response.MessageResponse;
-import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.repository.RatingRepository;
-import nashtech.longtran.shoppingweb.repository.UserRepository;
-import nashtech.longtran.shoppingweb.service.implement.RatingServiceImp;
+import nashtech.longtran.shoppingweb.services.implement.RatingServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/rating/", method = RequestMethod.GET)
