@@ -1,6 +1,6 @@
-package nashtech.longtran.shoppingweb.apis;
+package nashtech.longtran.shoppingweb.restController;
 
-import nashtech.longtran.shoppingweb.entity.ERole;
+import nashtech.longtran.shoppingweb.enums.ERole;
 import nashtech.longtran.shoppingweb.entity.Role;
 import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.payload.request.LoginRequest;

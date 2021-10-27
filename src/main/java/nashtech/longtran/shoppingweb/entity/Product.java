@@ -13,7 +13,8 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name ="product")
+@Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = "product_id"),
+        indexes = {@Index(name = "product_id_index", columnList = "product_id", unique = true)})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

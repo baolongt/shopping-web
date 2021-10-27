@@ -3,6 +3,7 @@ package nashtech.longtran.shoppingweb.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,7 +11,8 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-@Table(name ="rating")
+@Table(name ="rating", uniqueConstraints = @UniqueConstraint(columnNames = "rating_id"),
+        indexes = {@Index(name = "rating_id_index", columnList = "rating_id", unique = true)})
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +27,11 @@ public class Rating {
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
 
+    @NotBlank
     @Column(name = "rating_point")
     private float ratingPoint;
 
+    @NotBlank
     @Column(name = "rating_content")
     private String ratingContent;
 

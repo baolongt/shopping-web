@@ -1,10 +1,10 @@
 package nashtech.longtran.shoppingweb.entity;
 
 import lombok.*;
+import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +12,8 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name ="orders")
+@Table(name ="orders", uniqueConstraints = @UniqueConstraint(columnNames = "order_id"),
+        indexes = {@Index(name = "order_id_index", columnList = "order_id", unique = true)})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,9 @@ public class Order {
     @Column(name = "address")
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private EOrderStatus status;
 
     @Column(name = "date")
     private Timestamp createDate;
@@ -43,7 +45,7 @@ public class Order {
                 '}';
     }
 
-    public Order(User user, String address, String status, Timestamp date) {
+    public Order(User user, String address, EOrderStatus status, Timestamp date) {
         this.user = user;
         this.address = address;
         this.status = status;

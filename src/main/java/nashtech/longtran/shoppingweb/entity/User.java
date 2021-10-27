@@ -9,13 +9,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name="user", schema = "public")
+@Table (name="user", uniqueConstraints = @UniqueConstraint(columnNames = "username"),
+        indexes = {@Index(name = "username_index", columnList = "username", unique = true)})
 public class User {
     @Id
     @Column(name = "username")
     private String username;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -31,7 +31,9 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @JsonIgnore
+    @Column(name = "address")
+    private String address;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
@@ -48,6 +50,7 @@ public class User {
         this.firstname = "";
         this.lastname = "";
         this.phone = "";
+        this.address = "";
     }
 
     public String getUsername() {

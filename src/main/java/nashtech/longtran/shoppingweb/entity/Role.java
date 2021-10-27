@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import nashtech.longtran.shoppingweb.enums.ERole;
 
 import javax.persistence.*;
 
@@ -12,7 +13,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
+@Table(name = "role", uniqueConstraints = @UniqueConstraint(columnNames = "id"),
+        indexes = {@Index(name = "role_id_index", columnList = "id", unique = true)})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

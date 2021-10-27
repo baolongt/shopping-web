@@ -11,13 +11,16 @@ import java.util.Set;
 @Getter
 @Setter
 public class ProductAddingRequest {
-
-    @NotBlank
+    @NotBlank(message = "Product's name may not be blank")
     private String productName;
-    private float price = 0;
-    private int quantity = 0;
-    private String brand = "";
-    private String detail = "";
+    @NotBlank(message = "Price may not be blank")
+    private float price;
+    @NotBlank(message = "Quantity may not be blank")
+    private int quantity;
+    @NotBlank(message = "Brand may not be blank")
+    private String brand;
+    @NotBlank(message = "Detail may not be blank")
+    private String detail;
+    @NotBlank(message = "Category may not be blank")
     private Set<Integer> categories;
-
 }

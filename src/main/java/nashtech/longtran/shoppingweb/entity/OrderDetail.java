@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-@Table(name ="order_detail")
+@Table(name ="order_detail", uniqueConstraints = @UniqueConstraint(columnNames = "id"),
+        indexes = {@Index(name = "detail_id_index", columnList = "id", unique = true)})
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,8 @@ public class OrderDetail {
     @Column(name = "price")
     private float price;
 
-    public OrderDetail(Product product, int quantity, float price) {
+    public OrderDetail(Order order, Product product, int quantity, float price) {
+        this.orderObj = order;
         this.product = product;
         this.quantity = quantity;
         this.price = price;

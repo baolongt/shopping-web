@@ -9,11 +9,11 @@ import java.util.Set;
 @Getter
 @Setter
 public class OrderRequest{
-    @NotBlank
+    @NotBlank(message = "username may not be blank")
     private String username;
-    @NotBlank
+    @NotBlank(message = "address may not be blank")
     private String address;
-    @NotBlank
+    @NotBlank(message = "product may not blank")
     private Set<OrderProductRequest> products;
 }
 
