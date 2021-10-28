@@ -7,7 +7,7 @@ import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 import nashtech.longtran.shoppingweb.exception.OrderIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.EditOrderStatusRequest;
+import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
 import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
 import nashtech.longtran.shoppingweb.repository.OrderDetailRepository;
 import nashtech.longtran.shoppingweb.repository.OrdersRepository;
@@ -60,7 +60,7 @@ public class OrderServiceImp implements IOrderService {
     }
 
     @Override
-    public Order changeStatus(EditOrderStatusRequest request) {
+    public Order changeStatus(OrderEditStatusRequest request) {
         Order order = ordersRepository.findById(request.getOrderID())
                 .orElseThrow(() -> new OrderIdNotFoundException(request.getOrderID()));
         switch (request.getStatus().toLowerCase()){

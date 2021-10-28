@@ -46,12 +46,12 @@ public class ProductController {
     }
     @GetMapping("/getByCategory")
     public ResponseEntity<?> getByCategory(
-            @RequestParam Integer categoryId,
+            @RequestParam int[] categoryId,
             @RequestParam int page,
             @RequestParam int offset
     ){
         Pageable pageable = PageRequest.of(page, offset);
-        return ResponseEntity.ok(productServiceImp.getByCategory(categoryId, pageable));
+        return ResponseEntity.ok(productServiceImp.getByCategories(categoryId, pageable));
     }
     @GetMapping("/getByPriceRange")
     public ResponseEntity<?> getByPriceRange(

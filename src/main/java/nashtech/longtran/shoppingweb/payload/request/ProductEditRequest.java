@@ -18,5 +18,6 @@ public class ProductEditRequest {
     private String brand;
     private String detail;
     private String imgURL = "";
+    private int brandId;
     private Set<Integer> categories;
 }

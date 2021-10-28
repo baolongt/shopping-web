@@ -21,6 +21,8 @@ public class ProductAddingRequest {
     private String brand;
     @NotBlank(message = "Detail may not be blank")
     private String detail;
+    @NotBlank(message = "Brand Id may not be blank")
+    private int brandId;
     @NotBlank(message = "Category may not be blank")
     private Set<Integer> categories;
 }

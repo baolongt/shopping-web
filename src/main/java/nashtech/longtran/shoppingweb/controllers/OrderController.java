@@ -1,6 +1,6 @@
 package nashtech.longtran.shoppingweb.controllers;
 
-import nashtech.longtran.shoppingweb.payload.request.EditOrderStatusRequest;
+import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
 import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
 import nashtech.longtran.shoppingweb.services.implement.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @PostMapping("changeStatus")
-    public ResponseEntity<?> changeStatus(@RequestBody EditOrderStatusRequest request){
+    public ResponseEntity<?> changeStatus(@RequestBody OrderEditStatusRequest request){
         return ResponseEntity.ok(orderServiceImp.changeStatus(request));
     }
 

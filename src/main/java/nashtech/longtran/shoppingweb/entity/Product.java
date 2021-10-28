@@ -30,8 +30,11 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "brand")
-    private String brand;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {
+            CascadeType.ALL
+    })
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
     @Column(name = "product_detail")
     private String detail;
@@ -54,7 +57,7 @@ public class Product {
     )
     private Set<Category> categories = new HashSet<>();
 
-    public Product(String name, float price, int quantity, String brand,
+    public Product(String name, float price, int quantity, Brand brand,
                    String detail, Timestamp createdDate, Timestamp updatedDate) {
         this.name = name;
         this.price = price;
