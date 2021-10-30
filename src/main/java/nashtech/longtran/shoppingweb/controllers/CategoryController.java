@@ -1,5 +1,6 @@
 package nashtech.longtran.shoppingweb.controllers;
 
+import nashtech.longtran.shoppingweb.payload.request.CategoryEditRequest;
 import nashtech.longtran.shoppingweb.services.implement.CategoryServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/category/", method = RequestMethod.GET)
+@RequestMapping(value = "/api/v1/category/")
 public class CategoryController {
 
     @Autowired
@@ -23,19 +24,17 @@ public class CategoryController {
         return ResponseEntity.ok(categoryServiceImp.getAll(pageable));
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addCategory(
-        @RequestParam String name
+        @RequestBody String name,
+        @RequestBody Integer parentID
     ){
-        return ResponseEntity.ok(categoryServiceImp.addCategory(name));
+        return ResponseEntity.ok(categoryServiceImp.addCategory(name, parentID));
     }
 
-    @GetMapping("/edit")
-    public ResponseEntity<?> editCategory(
-            @RequestParam Integer id,
-            @RequestParam String name
-    ){
-        return ResponseEntity.ok(categoryServiceImp.editCategory(id, name));
+    @PostMapping("/edit")
+    public ResponseEntity<?> editCategory(@RequestBody CategoryEditRequest request){
+        return ResponseEntity.ok(categoryServiceImp.editCategory(request));
     }
 
 

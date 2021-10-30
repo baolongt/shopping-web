@@ -13,10 +13,6 @@ import java.util.Set;
 public class ProductAddingRequest {
     @NotBlank(message = "Product's name may not be blank")
     private String productName;
-    @NotBlank(message = "Price may not be blank")
-    private float price;
-    @NotBlank(message = "Quantity may not be blank")
-    private int quantity;
     @NotBlank(message = "Brand may not be blank")
     private String brand;
     @NotBlank(message = "Detail may not be blank")

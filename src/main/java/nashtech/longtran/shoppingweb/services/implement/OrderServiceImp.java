@@ -1,18 +1,13 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
-import nashtech.longtran.shoppingweb.entity.Order;
-import nashtech.longtran.shoppingweb.entity.OrderDetail;
-import nashtech.longtran.shoppingweb.entity.Product;
-import nashtech.longtran.shoppingweb.entity.User;
+import nashtech.longtran.shoppingweb.entity.*;
 import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 import nashtech.longtran.shoppingweb.exception.OrderIdNotFoundException;
+import nashtech.longtran.shoppingweb.exception.ProductDetailIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
 import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
 import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
-import nashtech.longtran.shoppingweb.repository.OrderDetailRepository;
-import nashtech.longtran.shoppingweb.repository.OrdersRepository;
-import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.repository.UserRepository;
+import nashtech.longtran.shoppingweb.repository.*;
 import nashtech.longtran.shoppingweb.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +34,9 @@ public class OrderServiceImp implements IOrderService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductDetailRepository productDetailRepository;
+
     @Override
     public Order makeOrder(OrderRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
@@ -49,8 +47,8 @@ public class OrderServiceImp implements IOrderService {
 
         Set<OrderDetail> orderDetailSet = new HashSet<>();
         request.getProducts().forEach(orderProductRequest -> {
-            Product product = productRepository.findById(orderProductRequest.getProductID())
-                    .orElseThrow(() -> new RuntimeException("Error: Product not found."));
+            ProductDetail product = productDetailRepository.findById(orderProductRequest.getProductDetailID())
+                    .orElseThrow(() -> new ProductDetailIdNotFoundException(orderProductRequest.getProductDetailID()));
             OrderDetail orderDetail = new OrderDetail(order, product,
                     orderProductRequest.getQuantity(), product.getPrice());
             orderDetailSet.add(orderDetail);

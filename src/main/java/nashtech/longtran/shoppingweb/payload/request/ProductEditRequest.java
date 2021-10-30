@@ -13,8 +13,6 @@ public class ProductEditRequest {
     private Integer id;
     @NotBlank
     private String productName;
-    private float price;
-    private int quantity;
     private String brand;
     private String detail;
     private String imgURL = "";

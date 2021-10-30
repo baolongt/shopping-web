@@ -22,7 +22,15 @@ public class Category {
     @Column(name = "category_name")
     private String name;
 
+    @Column(name = "parent_id")
+    private Integer parentID;
+
     public Category(String name){
         this.name = name;
+    }
+
+    public Category(String name, Integer parentID) {
+        this.name = name;
+        this.parentID = parentID;
     }
 }

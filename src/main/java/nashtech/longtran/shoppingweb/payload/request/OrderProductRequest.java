@@ -11,5 +11,5 @@ public class OrderProductRequest {
     @NotBlank
     private int quantity;
     @NotBlank
-    private Integer productID;
+    private Integer productDetailID;
 }

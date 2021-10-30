@@ -23,8 +23,8 @@ public class OrderDetail {
     private Order orderObj;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_detail_id", referencedColumnName = "id")
+    private ProductDetail product;
 
     @Column(name = "quantity")
     private int quantity;
@@ -32,7 +32,7 @@ public class OrderDetail {
     @Column(name = "price")
     private float price;
 
-    public OrderDetail(Order order, Product product, int quantity, float price) {
+    public OrderDetail(Order order, ProductDetail product, int quantity, float price) {
         this.orderObj = order;
         this.product = product;
         this.quantity = quantity;

@@ -42,8 +42,7 @@ public class ProductServiceImp implements IProductService {
         Timestamp current = new Timestamp(System.currentTimeMillis());
         Brand brand = brandRepository.getBrandById(request.getBrandId())
                 .orElseThrow(()->new BrandIdNotFoundException(request.getBrandId()));
-        Product newProduct = new Product(request.getProductName(), request.getPrice(),
-                request.getQuantity(), brand,request.getDetail(),  current ,current);
+        Product newProduct = new Product(request.getProductName(), brand,request.getDetail(),  current ,current);
         return productRepository.save(newProduct);
     }
 
@@ -52,11 +51,9 @@ public class ProductServiceImp implements IProductService {
         Product product =  productRepository.findById(request.getId())
                 .orElseThrow(() -> new ProductIdNotFoundException(request.getId()));
         Brand brand = brandRepository.getBrandById(request.getBrandId())
-                        .orElseThrow(()->new BrandIdNotFoundException(request.getBrandId()));
+                .orElseThrow(()->new BrandIdNotFoundException(request.getBrandId()));
         product.setName(request.getProductName());
-        product.setPrice(request.getPrice());
         product.setBrand(brand);
-        product.setQuantity(request.getQuantity());
         product.setDetail(request.getDetail());
         product.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
         return productRepository.save(product);

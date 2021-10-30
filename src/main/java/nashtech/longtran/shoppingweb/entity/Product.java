@@ -24,12 +24,6 @@ public class Product {
     @Column(name = "product_name")
     private String name;
 
-    @Column(name = "price")
-    private float price;
-
-    @Column(name = "quantity")
-    private int quantity;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
@@ -45,9 +39,6 @@ public class Product {
     @Column(name = "updated_date")
     private Timestamp updatedDate;
 
-    @Column(name = "imgurl")
-    private String imgURL;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
@@ -57,11 +48,12 @@ public class Product {
     )
     private Set<Category> categories = new HashSet<>();
 
-    public Product(String name, float price, int quantity, Brand brand,
+    @OneToMany(mappedBy = "product")
+    private Set<ProductDetail> productDetails;
+
+    public Product(String name, Brand brand,
                    String detail, Timestamp createdDate, Timestamp updatedDate) {
         this.name = name;
-        this.price = price;
-        this.quantity = quantity;
         this.brand = brand;
         this.detail = detail;
         this.createdDate = createdDate;
@@ -72,13 +64,10 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
                 ", brand='" + brand + '\'' +
                 ", detail='" + detail + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
-                ", imgURL='" + imgURL + '\'' +
                 ", categories=" + categories +
                 '}';
     }

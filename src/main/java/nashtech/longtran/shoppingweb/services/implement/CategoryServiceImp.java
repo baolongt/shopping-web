@@ -3,6 +3,7 @@ package nashtech.longtran.shoppingweb.services.implement;
 import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.exception.CategoryIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.EmptyCategoryNameException;
+import nashtech.longtran.shoppingweb.payload.request.CategoryEditRequest;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,20 @@ public class CategoryServiceImp implements ICategoryService {
     }
 
     @Override
-    public Category addCategory(String name) {
-        if (name == null || name.isEmpty()) {
+    public Category addCategory(String name, Integer parentID) {
+        if (name == null || !name.isEmpty()) {
             throw new EmptyCategoryNameException();
         }
-        Category category = new Category(name);
+        Category category = parentID ==  null ? new Category(name): new Category(name, parentID);
         return categoryRepository.save(category);
     }
 
     @Override
-    public Category editCategory(int categoryID, String nameEdit) {
-        Category category = categoryRepository.findById(categoryID)
-                .orElseThrow(() -> new CategoryIdNotFoundException(categoryID));
+    public Category editCategory(CategoryEditRequest request) {
+        Category category = categoryRepository.findById(request.getCategoryID())
+                .orElseThrow(() -> new CategoryIdNotFoundException(request.getCategoryID()));
+        category.setName(request.getName());
+        category.setParentID(request.getParentID());
         return categoryRepository.save(category);
     }
 }
