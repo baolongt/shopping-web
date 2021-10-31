@@ -15,7 +15,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByNameContaining(String name, Pageable pageable);
     Optional<Product> findById(Integer id);
     List<Product> findByCategoriesIn(Collection<Category> categories, Pageable pageable);
-    List<Product> findByPriceBetween(float min, float max, Pageable pageable);
-    List<Product> findByPriceGreaterThanEqual(float min, Pageable pageable);
-    List<Product> findByPriceLessThanEqual(float max, Pageable pageable);
 }

@@ -7,7 +7,10 @@ import nashtech.longtran.shoppingweb.payload.request.ColorEditRequest;
 import nashtech.longtran.shoppingweb.repository.ColorRepository;
 import nashtech.longtran.shoppingweb.services.IColorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ColorServiceImp implements IColorService {
@@ -16,17 +19,22 @@ public class ColorServiceImp implements IColorService {
     ColorRepository colorRepository;
 
     @Override
-    public Color addNewColor(String name, String  colorHex) {
-        Color color = new Color(name, colorHex);
+    public List<Color> getAll(Pageable pageable) {
+        return colorRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public Color addNewColor(ColorAddingRequest request) {
+        Color color = new Color(request.getName(), request.getColorHex());
         return colorRepository.save(color);
     }
 
     @Override
-    public Color editColor(Integer id, String name, String  colorHex) {
-        Color color = colorRepository.getColorById(id)
-                .orElseThrow(() -> new ColorIdNotFoundException(id));
-        color.setName(name);
-        color.setColorHex(colorHex);
+    public Color editColor(ColorEditRequest request) {
+        Color color = colorRepository.getColorById(request.getId())
+                .orElseThrow(() -> new ColorIdNotFoundException(request.getId()));
+        color.setName(request.getName());
+        color.setColorHex(request.getColorHex());
         return colorRepository.save(color);
     }
 }

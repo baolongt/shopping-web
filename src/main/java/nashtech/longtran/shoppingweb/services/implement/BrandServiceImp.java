@@ -7,7 +7,10 @@ import nashtech.longtran.shoppingweb.payload.request.BrandEditRequest;
 import nashtech.longtran.shoppingweb.repository.BrandRepository;
 import nashtech.longtran.shoppingweb.services.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BrandServiceImp implements IBrandService {
@@ -15,17 +18,23 @@ public class BrandServiceImp implements IBrandService {
     @Autowired
     BrandRepository brandRepository;
 
+
     @Override
-    public Brand addNewBrand(String name) {
-        Brand newBrand = new Brand(name);
+    public List<Brand> getAll(Pageable pageable) {
+        return brandRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public Brand addNewBrand(BrandAddingRequest request) {
+        Brand newBrand = new Brand(request.getName());
         return brandRepository.save(newBrand);
     }
 
     @Override
-    public Brand editBrand(Integer id, String name) {
-        Brand brand = brandRepository.getBrandById(id)
-                .orElseThrow(() -> new BrandIdNotFoundException(id));
-        brand.setName(name);
+    public Brand editBrand(BrandEditRequest  request) {
+        Brand brand = brandRepository.getBrandById(request.getId())
+                .orElseThrow(() -> new BrandIdNotFoundException(request.getId()));
+        brand.setName(request.getName());
         return brandRepository.save(brand);
     }
 }

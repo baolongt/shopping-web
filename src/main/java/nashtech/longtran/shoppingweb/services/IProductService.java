@@ -17,7 +17,4 @@ public interface IProductService {
     Product getByID(int productID);
     List<Product> findByName(String name, Pageable pageable);
     List<Product> getByCategories(int[] categoryID , Pageable pageable);
-    List<Product> getByPriceGreaterThan(float min , Pageable pageable);
-    List<Product> getByPriceLessThan(float max , Pageable pageable);
-    List<Product> getByPriceRange(float min, float max, Pageable pageable);
 }

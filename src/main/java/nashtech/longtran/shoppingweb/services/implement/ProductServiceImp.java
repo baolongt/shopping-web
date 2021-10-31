@@ -10,6 +10,7 @@ import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
 import nashtech.longtran.shoppingweb.payload.request.ProductEditRequest;
 import nashtech.longtran.shoppingweb.repository.BrandRepository;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
+import nashtech.longtran.shoppingweb.repository.ProductDetailRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import java.util.Set;
 
 @Service
 public class ProductServiceImp implements IProductService {
+    @Autowired
+    ProductDetailRepository productDetailRepository;
+
     @Autowired
     ProductRepository productRepository;
 
@@ -81,18 +85,4 @@ public class ProductServiceImp implements IProductService {
         return productRepository.findByCategoriesIn(categories,pageable);
     }
 
-    @Override
-    public List<Product> getByPriceGreaterThan(float min, Pageable pageable) {
-        return productRepository.findByPriceGreaterThanEqual(min, pageable);
-    }
-
-    @Override
-    public List<Product> getByPriceLessThan(float max, Pageable pageable) {
-        return productRepository.findByPriceLessThanEqual(max, pageable);
-    }
-
-    @Override
-    public List<Product> getByPriceRange(float min, float max, Pageable pageable) {
-        return productRepository.findByPriceBetween(min, max, pageable);
-    }
 }

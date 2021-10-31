@@ -16,6 +16,7 @@ import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.repository.SizeRepository;
 import nashtech.longtran.shoppingweb.services.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,5 +65,20 @@ public class ProductDetailServiceImp implements IProductDetailService {
     @Override
     public List<ProductDetail> getDetailsOfProduct(Integer productID) {
         return productDetailRepository.findByProductId(productID);
+    }
+
+    @Override
+    public List<ProductDetail> getByPriceGreaterThan(float min, Pageable pageable) {
+        return productDetailRepository.findByPriceGreaterThanEqual(min, pageable);
+    }
+
+    @Override
+    public List<ProductDetail> getByPriceLessThan(float max, Pageable pageable) {
+        return productDetailRepository.findByPriceLessThanEqual(max, pageable);
+    }
+
+    @Override
+    public List<ProductDetail> getByPriceRange(float min, float max, Pageable pageable) {
+        return productDetailRepository.findByPriceBetween(min, max, pageable);
     }
 }

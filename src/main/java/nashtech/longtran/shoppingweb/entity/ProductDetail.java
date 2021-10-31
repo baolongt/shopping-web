@@ -1,5 +1,6 @@
 package nashtech.longtran.shoppingweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class ProductDetail {
     @Column(name = "id")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id", nullable=false)
     private Product product;
