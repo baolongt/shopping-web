@@ -1,11 +1,8 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
-import nashtech.longtran.shoppingweb.entity.Order;
-import nashtech.longtran.shoppingweb.payload.request.BrandAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.BrandEditRequest;
+import nashtech.longtran.shoppingweb.dto.BrandDTO;
 import nashtech.longtran.shoppingweb.services.implement.BrandServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -44,14 +40,14 @@ public class BrandController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addNewBrand(
-            @RequestBody @Valid BrandAddingRequest request
+            @RequestBody @Valid BrandDTO request
             ){
         return ResponseEntity.ok(brandServiceImp.addNewBrand(request));
     }
 
     @PostMapping("/edit")
     public ResponseEntity<?> editBrand(
-            @RequestBody BrandEditRequest request
+            @RequestBody @Valid BrandDTO request
             ){
         return ResponseEntity.ok(brandServiceImp.editBrand(request));
     }

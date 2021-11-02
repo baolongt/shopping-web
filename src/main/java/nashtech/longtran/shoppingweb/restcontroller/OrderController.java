@@ -1,5 +1,6 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
+import nashtech.longtran.shoppingweb.dto.OrderDTO;
 import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
 import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
 import nashtech.longtran.shoppingweb.services.implement.OrderServiceImp;
@@ -20,7 +21,7 @@ public class OrderController {
     OrderServiceImp orderServiceImp;
 
     @PostMapping("/makeOrder")
-    public ResponseEntity<?> makeOrder(@RequestBody OrderRequest request){
+    public ResponseEntity<?> makeOrder(@RequestBody OrderDTO request){
         return  ResponseEntity.ok( orderServiceImp.makeOrder(request));
     }
 
@@ -43,7 +44,7 @@ public class OrderController {
     }
 
     @PostMapping("changeStatus")
-    public ResponseEntity<?> changeStatus(@RequestBody OrderEditStatusRequest request){
+    public ResponseEntity<?> changeStatus(@RequestBody OrderDTO request){
         return ResponseEntity.ok(orderServiceImp.changeStatus(request));
     }
 

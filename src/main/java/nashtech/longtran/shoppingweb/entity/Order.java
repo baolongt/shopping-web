@@ -4,6 +4,7 @@ import lombok.*;
 import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @NoArgsConstructor
@@ -29,6 +30,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @NotBlank
     private EOrderStatus status;
 
     @Column(name = "date")

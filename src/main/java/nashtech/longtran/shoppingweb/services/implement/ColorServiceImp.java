@@ -1,5 +1,9 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.ColorDTO;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Color;
 import nashtech.longtran.shoppingweb.exception.ColorIdNotFoundException;
 import nashtech.longtran.shoppingweb.payload.request.ColorAddingRequest;
@@ -19,22 +23,43 @@ public class ColorServiceImp implements IColorService {
     ColorRepository colorRepository;
 
     @Override
-    public List<Color> getAll(Pageable pageable) {
-        return colorRepository.findAll(pageable).getContent();
+    public ResponseDTO getAll(Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(colorRepository.findAll(pageable).getContent());
+        responseDTO.setSuccessCode(SuccessCode.RETRIEVE_COLOR_SUCCESS);
+        return responseDTO;
     }
 
     @Override
-    public Color addNewColor(ColorAddingRequest request) {
-        Color color = new Color(request.getName(), request.getColorHex());
-        return colorRepository.save(color);
+    public ResponseDTO addNewColor(ColorDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        Color color = new Color(request.getColorName(), request.getColorHex());
+        try{
+            colorRepository.save(color);
+            responseDTO.setSuccessCode(SuccessCode.ADD_COLOR_SUCCESS);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            responseDTO.setErrorCode(ErrorCode.ERR_SAVE_COLOR);
+        }
+        return responseDTO;
     }
 
     @Override
-    public Color editColor(ColorEditRequest request) {
+    public ResponseDTO editColor(ColorDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
         Color color = colorRepository.getColorById(request.getId())
-                .orElseThrow(() -> new ColorIdNotFoundException(request.getId()));
-        color.setName(request.getName());
-        color.setColorHex(request.getColorHex());
-        return colorRepository.save(color);
+                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
+        try {
+            color.setName(request.getColorName());
+            color.setColorHex(request.getColorHex());
+             colorRepository.save(color);
+            responseDTO.setSuccessCode(SuccessCode.UPDATE_COLOR_SUCCESS);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            responseDTO.setErrorCode(ErrorCode.ERR_UPDATE_COLOR);
+        }
+        return responseDTO;
     }
 }

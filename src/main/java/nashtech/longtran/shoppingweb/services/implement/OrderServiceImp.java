@@ -1,5 +1,9 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.OrderDTO;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.*;
 import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 import nashtech.longtran.shoppingweb.exception.OrderIdNotFoundException;
@@ -38,59 +42,83 @@ public class OrderServiceImp implements IOrderService {
     ProductDetailRepository productDetailRepository;
 
     @Override
-    public Order makeOrder(OrderRequest request) {
+    public ResponseDTO makeOrder(OrderDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(request.getUsername()));
         Order order = new Order(user, request.getAddress(),
                 EOrderStatus.Preparing, new Timestamp(System.currentTimeMillis()));
-        ordersRepository.saveAndFlush(order);
-
         Set<OrderDetail> orderDetailSet = new HashSet<>();
-        request.getProducts().forEach(orderProductRequest -> {
-            ProductDetail product = productDetailRepository.findById(orderProductRequest.getProductDetailID())
-                    .orElseThrow(() -> new ProductDetailIdNotFoundException(orderProductRequest.getProductDetailID()));
-            OrderDetail orderDetail = new OrderDetail(order, product,
-                    orderProductRequest.getQuantity(), product.getPrice());
-            orderDetailSet.add(orderDetail);
-        });
-        orderDetailRepository.saveAll(orderDetailSet);
-        return order;
-    }
+        try {
+            ordersRepository.saveAndFlush(order);
 
-    @Override
-    public Order changeStatus(OrderEditStatusRequest request) {
-        Order order = ordersRepository.findById(request.getOrderID())
-                .orElseThrow(() -> new OrderIdNotFoundException(request.getOrderID()));
-        switch (request.getStatus().toLowerCase()){
-            case "preparing":
-                order.setStatus(EOrderStatus.Preparing);
-                break;
-            case "shipping":
-                order.setStatus(EOrderStatus.Shipping);
-                break;
-            case "received":
-                order.setStatus(EOrderStatus.Received);
-                break;
+            request.getProducts().forEach(orderProductRequest -> {
+                ProductDetail product = productDetailRepository.findById(orderProductRequest.getProductDetailID())
+                        .orElseThrow(() -> new ProductDetailIdNotFoundException(ErrorCode.ERR_PRODUCT_DETAIL_ID_NOT_FOUND));
+                OrderDetail orderDetail = new OrderDetail(order, product,
+                        orderProductRequest.getQuantity(), product.getPrice());
+                orderDetailSet.add(orderDetail);
+            });
+            orderDetailRepository.saveAll(orderDetailSet);
+            responseDTO.setSuccessCode(SuccessCode.ADD_ORDER_SUCCESS);
         }
-        return order;
+        catch (Exception e){
+            responseDTO.setErrorCode(ErrorCode.ERR_SAVE_ORDER);
+        }
+        return responseDTO;
     }
 
     @Override
-    public List<Order> getOrdersByUsername(String username, Pageable pageable) {
+    public ResponseDTO changeStatus(OrderDTO request) {
+        ResponseDTO responseDTO  = new ResponseDTO();
+        Order order = ordersRepository.findById(request.getId())
+                .orElseThrow(() -> new OrderIdNotFoundException(ErrorCode.ERR_ORDER_ID_NOT_FOUND));
+        try {
+            switch (request.getStatus().toLowerCase()) {
+                case "preparing":
+                    order.setStatus(EOrderStatus.Preparing);
+                    break;
+                case "shipping":
+                    order.setStatus(EOrderStatus.Shipping);
+                    break;
+                case "received":
+                    order.setStatus(EOrderStatus.Received);
+                    break;
+            }
+            ordersRepository.save(order);
+            responseDTO.setSuccessCode(SuccessCode.UPDATE_ORDER_SUCCESS);
+        }
+        catch (Exception e){
+            responseDTO.setErrorCode(ErrorCode.ERR_UPDATE_ORDER);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getOrdersByUsername(String username, Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(()  -> new UsernameNotFoundException(username));
-        return ordersRepository.findByUser(user, pageable);
+            responseDTO.setData(ordersRepository.findByUser(user, pageable));
+            responseDTO.setData(SuccessCode.RETRIEVE_ORDER_SUCCESS);
+        return responseDTO;
     }
 
     @Override
-    public List<Order> getAll(Pageable pageable) {
-        return ordersRepository.findAll(pageable).getContent();
+    public ResponseDTO getAll(Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(ordersRepository.findAll(pageable).getContent());
+        responseDTO.setData(SuccessCode.RETRIEVE_ORDER_SUCCESS);
+        return responseDTO;
     }
 
     @Override
-    public List<OrderDetail> getOrderDetails(int orderID) {
+    public ResponseDTO getOrderDetails(int orderID) {
+        ResponseDTO responseDTO = new ResponseDTO();
         Order order = ordersRepository.findById(orderID)
-                .orElseThrow(() -> new ProductIdNotFoundException(orderID));
-        return orderDetailRepository.findByOrderObj(order);
+                .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
+        responseDTO.setData(orderDetailRepository.findByOrderObj(order));
+        responseDTO.setData(SuccessCode.RETRIEVE_ORDER_SUCCESS);
+        return responseDTO;
     }
 }

@@ -1,5 +1,7 @@
 package nashtech.longtran.shoppingweb.services;
 
+import nashtech.longtran.shoppingweb.dto.ProductDTO;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.exception.BrandIdNotFoundException;
@@ -11,10 +13,10 @@ import java.util.Collection;
 import java.util.List;
 
 public interface IProductService {
-    List<Product> getAll(Pageable pageable);
-    Product addProduct(ProductAddingRequest product) throws BrandIdNotFoundException;
-    Product editProduct(ProductEditRequest product);
-    Product getByID(int productID);
-    List<Product> findByName(String name, Pageable pageable);
-    List<Product> getByCategories(int[] categoryID , Pageable pageable);
+    ResponseDTO getAll(Pageable pageable);
+    ResponseDTO addProduct(ProductDTO product);
+    ResponseDTO editProduct(ProductDTO product);
+    ResponseDTO getByID(int productID);
+    ResponseDTO findByName(String name, Pageable pageable);
+    ResponseDTO getByCategories(int[] categoryID , Pageable pageable);
 }

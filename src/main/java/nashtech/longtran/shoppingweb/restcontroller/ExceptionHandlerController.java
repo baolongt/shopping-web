@@ -1,6 +1,7 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
-import nashtech.longtran.shoppingweb.constant.Error;
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,8 @@ public class ExceptionHandlerController {
             ColorIdNotFoundException.class,
             SizeIdNotFoundException.class,
             ProductDetailIdNotFoundException.class})
-    public ResponseEntity<String> handleNotFound(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EmptyCategoryNameException.class)
-    public ResponseEntity<String> handleEmptyCategoryName(EmptyCategoryNameException e){
-        return new ResponseEntity<>(Error.EMPTY_CATEGORY_NAME_EXCEPTION, HttpStatus.INTERNAL_SERVER_ERROR);
+        public ResponseEntity<ResponseDTO> handleNotFound(Exception e){
+        return new ResponseEntity<>(new ResponseDTO(e.getMessage(), null, null), HttpStatus.NOT_FOUND);
     }
 
 

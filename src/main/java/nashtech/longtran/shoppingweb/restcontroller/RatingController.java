@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.payload.request.RatingRequest;
 import nashtech.longtran.shoppingweb.services.implement.RatingServiceImp;

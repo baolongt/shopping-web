@@ -1,4 +1,4 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.services.implement.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;

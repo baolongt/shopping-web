@@ -1,9 +1,11 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.BrandDTO;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Brand;
 import nashtech.longtran.shoppingweb.exception.BrandIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.BrandAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.BrandEditRequest;
 import nashtech.longtran.shoppingweb.repository.BrandRepository;
 import nashtech.longtran.shoppingweb.services.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +20,41 @@ public class BrandServiceImp implements IBrandService {
     @Autowired
     BrandRepository brandRepository;
 
-
     @Override
-    public List<Brand> getAll(Pageable pageable) {
-        return brandRepository.findAll(pageable).getContent();
+    public ResponseDTO getAll(Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        List<Brand> brandList = brandRepository.findAll(pageable).getContent();
+
+        responseDTO.setData(brandList);
+        responseDTO.setSuccessCode(SuccessCode.RETRIEVE_BRAND_SUCCESS);
+        return responseDTO;
     }
 
     @Override
-    public Brand addNewBrand(BrandAddingRequest request) {
-        Brand newBrand = new Brand(request.getName());
-        return brandRepository.save(newBrand);
+    public ResponseDTO addNewBrand(BrandDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            brandRepository.save(new Brand(request.getName()));
+            responseDTO.setSuccessCode(SuccessCode.ADD_BRAND_SUCCESS);
+        }
+        catch (Exception e){
+            responseDTO.setErrorCode(ErrorCode.ERR_SAVE_BRAND);
+        }
+        return responseDTO;
     }
 
     @Override
-    public Brand editBrand(BrandEditRequest  request) {
+    public ResponseDTO editBrand(BrandDTO request){
+        ResponseDTO responseDTO = new ResponseDTO();
         Brand brand = brandRepository.getBrandById(request.getId())
-                .orElseThrow(() -> new BrandIdNotFoundException(request.getId()));
-        brand.setName(request.getName());
-        return brandRepository.save(brand);
+                .orElseThrow(() -> new BrandIdNotFoundException(ErrorCode.ERR_BRAND_ID_NOT_FOUND));
+        try {
+            brand.setName(request.getName());
+            responseDTO.setSuccessCode(SuccessCode.UPDATE_BRAND_SUCCESS);
+        }
+        catch (Exception  e){
+            responseDTO.setErrorCode(ErrorCode.ERR_UPDATE_BRAND);
+        }
+        return responseDTO;
     }
 }

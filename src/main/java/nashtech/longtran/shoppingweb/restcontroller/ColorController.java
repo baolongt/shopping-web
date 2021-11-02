@@ -1,9 +1,8 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
+import nashtech.longtran.shoppingweb.dto.ColorDTO;
 import nashtech.longtran.shoppingweb.payload.request.ColorAddingRequest;
 import nashtech.longtran.shoppingweb.payload.request.ColorEditRequest;
-import nashtech.longtran.shoppingweb.repository.ColorRepository;
-import nashtech.longtran.shoppingweb.services.implement.BrandServiceImp;
 import nashtech.longtran.shoppingweb.services.implement.ColorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -30,14 +29,14 @@ public class ColorController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addColor(
-            @RequestBody @Valid ColorAddingRequest request
+            @RequestBody @Valid ColorDTO request
     ){
         return ResponseEntity.ok(colorServiceImp.addNewColor(request));
     }
 
     @GetMapping("/edit")
     public ResponseEntity<?> editColor(
-            @RequestBody @Valid ColorEditRequest request
+            @RequestBody @Valid ColorDTO request
             ){
         return ResponseEntity.ok(colorServiceImp.editColor(request));
     }

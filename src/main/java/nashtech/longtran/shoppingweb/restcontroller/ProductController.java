@@ -1,5 +1,6 @@
-package nashtech.longtran.shoppingweb.controllers;
+package nashtech.longtran.shoppingweb.restcontroller;
 
+import nashtech.longtran.shoppingweb.dto.ProductDTO;
 import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
 import nashtech.longtran.shoppingweb.payload.request.ProductEditRequest;
 import nashtech.longtran.shoppingweb.services.implement.ProductDetailServiceImp;
@@ -43,12 +44,12 @@ public class ProductController {
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductAddingRequest request){
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO request){
            return ResponseEntity.ok(productServiceImp.addProduct(request));
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editProduct(@RequestBody ProductEditRequest request){
+    public ResponseEntity<?> editProduct(@RequestBody ProductDTO request){
        return ResponseEntity.ok(productServiceImp.editProduct(request));
     }
 

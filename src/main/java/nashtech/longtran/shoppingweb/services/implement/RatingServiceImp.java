@@ -1,5 +1,8 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.Rating;
 import nashtech.longtran.shoppingweb.entity.User;
@@ -29,19 +32,29 @@ public class RatingServiceImp implements IRatingService {
     ProductRepository productRepository;
 
     @Override
-    public Rating addRating(RatingRequest request) {
+    public ResponseDTO addRating(RatingRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO();
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(()  -> new UsernameNotFoundException(request.getUsername()));
         Product product  =  productRepository.findById(request.getProductID())
-                .orElseThrow(() -> new ProductIdNotFoundException(request.getProductID()));
-        Rating rating = new Rating(user, product, request.getRatingPoint(),  request.getRatingContent());
-        return ratingRepository.save(rating);
+                .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
+        try {
+            Rating rating = new Rating(user, product, request.getRatingPoint(), request.getRatingContent());
+            ratingRepository.save(rating);
+            responseDTO.setSuccessCode(SuccessCode.ADD_RATING_SUCCESS);
+        }
+        catch (Exception e){
+            responseDTO.setErrorCode(ErrorCode.ERR_SAVE_RATING);
+        }
+        return  responseDTO;
     }
 
     @Override
-    public List<Rating> getByProductID(int productID, Pageable pageable) {
+    public ResponseDTO getByProductID(int productID, Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
         Product product  = productRepository.findById(productID)
-                .orElseThrow(()  -> new ProductIdNotFoundException(productID));
-        return ratingRepository.findByProduct(product, pageable);
+                .orElseThrow(()  -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
+        responseDTO.setData(ratingRepository.findByProduct(product, pageable));
+        return responseDTO;
     }
 }

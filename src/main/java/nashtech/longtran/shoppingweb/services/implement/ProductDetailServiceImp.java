@@ -1,10 +1,15 @@
 package nashtech.longtran.shoppingweb.services.implement;
 
+import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.ProductDetailDTO;
+import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Color;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.ProductDetail;
 import nashtech.longtran.shoppingweb.entity.Size;
 import nashtech.longtran.shoppingweb.exception.ColorIdNotFoundException;
+import nashtech.longtran.shoppingweb.exception.ProductDetailIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.SizeIdNotFoundException;
 import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
@@ -32,53 +37,64 @@ public class ProductDetailServiceImp implements IProductDetailService {
     @Autowired
     ColorRepository colorRepository;
 
-    @Autowired
-    SizeRepository sizeRepository;
-
     @Override
-    public ProductDetail addProductDetail(ProductDetailAddingRequest request) {
+    public ResponseDTO addProductDetail(ProductDetailDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
         Product product = productRepository.findById(request.getProductID())
-                .orElseThrow(() -> new ProductIdNotFoundException(request.getProductID()));
+                .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
         Color color = colorRepository.findById(request.getColorId())
-                .orElseThrow(() -> new ColorIdNotFoundException(request.getColorId()));
-        Size size = sizeRepository.findById(request.getSizeId())
-                .orElseThrow(() -> new SizeIdNotFoundException(request.getSizeId()));
-        ProductDetail newProductDetail = new ProductDetail(product, color, size, request.getQuantity(), request.getPrice());
-        return productDetailRepository.save(newProductDetail);
+                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
+        ProductDetail newProductDetail = new ProductDetail(product, color, request.getSize(), request.getQuantity(), request.getPrice());
+        try{
+            productDetailRepository.save(newProductDetail);
+            responseDTO.setSuccessCode(SuccessCode.ADD_PRODUCT_DETAIL_SUCCESS);
+        }
+        catch (Exception  e){
+            e.printStackTrace();
+            responseDTO.setErrorCode(ErrorCode.ERR_SAVE_PRODUCT_DETAIL);
+        }
+        return responseDTO;
     }
 
     @Override
-    public ProductDetail editProductDetail(ProductDetailEditRequest request) {
+    public ResponseDTO editProductDetail(ProductDetailDTO request) {
+        ResponseDTO responseDTO = new ResponseDTO();
         ProductDetail productDetail = productDetailRepository.findById(request.getId())
-                .orElseThrow(() -> new ProductIdNotFoundException(request.getId()));
+                .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
         Color color = colorRepository.findById(request.getColorId())
-                .orElseThrow(() -> new ColorIdNotFoundException(request.getColorId()));
-        Size size = sizeRepository.findById(request.getSizeId())
-                .orElseThrow(() -> new SizeIdNotFoundException(request.getSizeId()));
-        productDetail.setColor(color);
-        productDetail.setSize(size);
-        productDetail.setQuantity(request.getQuantity());
-        productDetail.setPrice(request.getPrice());
-        return productDetailRepository.save(productDetail);
+                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
+        try {
+            productDetail.setColor(color);
+            productDetail.setSize(request.getSize());
+            productDetail.setQuantity(request.getQuantity());
+            productDetail.setPrice(request.getPrice());
+            productDetailRepository.save(productDetail);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            responseDTO.setErrorCode(ErrorCode.ERR_UPDATE_PRODUCT_DETAIL);
+        }
+        return responseDTO;
     }
 
     @Override
-    public List<ProductDetail> getDetailsOfProduct(Integer productID) {
-        return productDetailRepository.findByProductId(productID);
+    public ProductDetail getDetailsOfProduct(Integer productID) {
+        return productDetailRepository.findByProductId(productID)
+                .orElseThrow(() -> new ProductDetailIdNotFoundException(ErrorCode.ERR_PRODUCT_DETAIL_ID_NOT_FOUND));
     }
 
     @Override
-    public List<ProductDetail> getByPriceGreaterThan(float min, Pageable pageable) {
+    public List<ProductDetail>  getByPriceGreaterThan(float min, Pageable pageable) {
         return productDetailRepository.findByPriceGreaterThanEqual(min, pageable);
     }
 
     @Override
-    public List<ProductDetail> getByPriceLessThan(float max, Pageable pageable) {
+    public List<ProductDetail>  getByPriceLessThan(float max, Pageable pageable) {
         return productDetailRepository.findByPriceLessThanEqual(max, pageable);
     }
 
     @Override
-    public List<ProductDetail> getByPriceRange(float min, float max, Pageable pageable) {
+    public List<ProductDetail>  getByPriceRange(float min, float max, Pageable pageable) {
         return productDetailRepository.findByPriceBetween(min, max, pageable);
     }
 }

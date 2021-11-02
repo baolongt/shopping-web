@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +22,7 @@ public class Brand {
     private Integer id;
 
     @Column(name = "brand_name")
+    @NotBlank
     private String name;
 
     public Brand(String name) {

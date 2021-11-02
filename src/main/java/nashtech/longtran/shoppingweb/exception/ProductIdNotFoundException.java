@@ -1,7 +1,8 @@
 package nashtech.longtran.shoppingweb.exception;
 
 public class ProductIdNotFoundException extends RuntimeException{
-    public ProductIdNotFoundException(int productID) {
-        super("Could not find product's id: "+productID);
+    private static final long serialVersionUID = 1L;
+    public ProductIdNotFoundException(String message) {
+        super(message);
     }
 }
