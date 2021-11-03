@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
-    Optional<ProductDetail> findByProductId(Integer id);
+    List<ProductDetail> findByProductId(Integer id);
     List<ProductDetail> findByPriceBetween(float min, float max, Pageable pageable);
     List<ProductDetail> findByPriceGreaterThanEqual(float min, Pageable pageable);
     List<ProductDetail> findByPriceLessThanEqual(float max, Pageable pageable);

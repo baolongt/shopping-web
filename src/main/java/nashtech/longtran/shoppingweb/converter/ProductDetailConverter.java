@@ -1,6 +1,7 @@
 package nashtech.longtran.shoppingweb.converter;
 
 import nashtech.longtran.shoppingweb.constant.ErrorCode;
+import nashtech.longtran.shoppingweb.dto.ColorDTO;
 import nashtech.longtran.shoppingweb.dto.ProductDTO;
 import nashtech.longtran.shoppingweb.dto.ProductDetailDTO;
 import nashtech.longtran.shoppingweb.entity.Color;
@@ -11,7 +12,9 @@ import nashtech.longtran.shoppingweb.repository.ColorRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductDetailConverter {
     @Autowired
     ModelMapper modelMapper;
@@ -24,17 +27,18 @@ public class ProductDetailConverter {
 
     public ProductDetail convertToEntity(ProductDetailDTO dto){
         ProductDetail productDetail = modelMapper.map(dto, ProductDetail.class);
-        Color color = colorRepository.findById(dto.getColorId())
+        Color color = colorRepository.findById(dto.getColor().getId())
                 .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
-        Product product = productRepository.findById(dto.getProductID())
-                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
-        productDetail.setProduct(product);
         productDetail.setColor(color);
         return productDetail;
     }
 
     public ProductDetailDTO  convertToDTO(ProductDetail productDetail){
         ProductDetailDTO dto = modelMapper.map(productDetail, ProductDetailDTO.class);
+        Color color = colorRepository.findById(dto.getColor().getId())
+                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
+        dto.setColor(modelMapper.map(color, ColorDTO.class));
+        dto.setProductID(productDetail.getProduct().getId());
         return dto;
     }
 }

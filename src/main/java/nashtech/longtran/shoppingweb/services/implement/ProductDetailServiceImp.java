@@ -7,24 +7,15 @@ import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Color;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.ProductDetail;
-import nashtech.longtran.shoppingweb.entity.Size;
 import nashtech.longtran.shoppingweb.exception.ColorIdNotFoundException;
-import nashtech.longtran.shoppingweb.exception.ProductDetailIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
-import nashtech.longtran.shoppingweb.exception.SizeIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.ProductDetailAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.ProductDetailEditRequest;
 import nashtech.longtran.shoppingweb.repository.ColorRepository;
 import nashtech.longtran.shoppingweb.repository.ProductDetailRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
-import nashtech.longtran.shoppingweb.repository.SizeRepository;
 import nashtech.longtran.shoppingweb.services.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductDetailServiceImp implements IProductDetailService {
@@ -42,7 +33,7 @@ public class ProductDetailServiceImp implements IProductDetailService {
         ResponseDTO responseDTO = new ResponseDTO();
         Product product = productRepository.findById(request.getProductID())
                 .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
-        Color color = colorRepository.findById(request.getColorId())
+        Color color = colorRepository.findById(request.getColor().getId())
                 .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
         ProductDetail newProductDetail = new ProductDetail(product, color, request.getSize(), request.getQuantity(), request.getPrice());
         try{
@@ -61,7 +52,7 @@ public class ProductDetailServiceImp implements IProductDetailService {
         ResponseDTO responseDTO = new ResponseDTO();
         ProductDetail productDetail = productDetailRepository.findById(request.getId())
                 .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
-        Color color = colorRepository.findById(request.getColorId())
+        Color color = colorRepository.findById(request.getColor().getId())
                 .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
         try {
             productDetail.setColor(color);
@@ -78,23 +69,31 @@ public class ProductDetailServiceImp implements IProductDetailService {
     }
 
     @Override
-    public ProductDetail getDetailsOfProduct(Integer productID) {
-        return productDetailRepository.findByProductId(productID)
-                .orElseThrow(() -> new ProductDetailIdNotFoundException(ErrorCode.ERR_PRODUCT_DETAIL_ID_NOT_FOUND));
+    public ResponseDTO getDetailsOfProduct(Integer productID) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(productDetailRepository.findByProductId(productID));
+        return responseDTO;
+
     }
 
     @Override
-    public List<ProductDetail>  getByPriceGreaterThan(float min, Pageable pageable) {
-        return productDetailRepository.findByPriceGreaterThanEqual(min, pageable);
+    public ResponseDTO getByPriceGreaterThan(float min, Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(productDetailRepository.findByPriceGreaterThanEqual(min, pageable));
+        return responseDTO;
     }
 
     @Override
-    public List<ProductDetail>  getByPriceLessThan(float max, Pageable pageable) {
-        return productDetailRepository.findByPriceLessThanEqual(max, pageable);
+    public ResponseDTO  getByPriceLessThan(float max, Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(productDetailRepository.findByPriceLessThanEqual(max, pageable));
+        return responseDTO;
     }
 
     @Override
-    public List<ProductDetail>  getByPriceRange(float min, float max, Pageable pageable) {
-        return productDetailRepository.findByPriceBetween(min, max, pageable);
+    public ResponseDTO  getByPriceRange(float min, float max, Pageable pageable) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(productDetailRepository.findByPriceBetween(min, max, pageable));
+        return responseDTO;
     }
 }

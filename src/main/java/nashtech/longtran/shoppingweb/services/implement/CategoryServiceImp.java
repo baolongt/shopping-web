@@ -2,10 +2,10 @@ package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.constant.ErrorCode;
 import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.CategoryDTO;
 import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.exception.CategoryIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.CategoryEditRequest;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,9 @@ public class CategoryServiceImp implements ICategoryService {
     }
 
     @Override
-    public ResponseDTO editCategory(CategoryEditRequest request) {
+    public ResponseDTO editCategory(CategoryDTO request) {
         ResponseDTO responseDTO = new ResponseDTO();
-        Category category = categoryRepository.findById(request.getCategoryID())
+        Category category = categoryRepository.findById(request.getId())
                 .orElseThrow(() -> new CategoryIdNotFoundException(ErrorCode.ERR_CATEGORY_ID_NOT_FOUND));
         try {
             category.setName(request.getName());

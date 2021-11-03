@@ -42,7 +42,7 @@ public class Product {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.ALL
     })
-    @JoinTable(name = "product_category",
+    @JoinTable(name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )

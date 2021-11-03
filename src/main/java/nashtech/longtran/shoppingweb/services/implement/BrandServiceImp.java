@@ -24,7 +24,6 @@ public class BrandServiceImp implements IBrandService {
     public ResponseDTO getAll(Pageable pageable) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<Brand> brandList = brandRepository.findAll(pageable).getContent();
-
         responseDTO.setData(brandList);
         responseDTO.setSuccessCode(SuccessCode.RETRIEVE_BRAND_SUCCESS);
         return responseDTO;

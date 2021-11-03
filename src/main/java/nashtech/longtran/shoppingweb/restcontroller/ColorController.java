@@ -1,8 +1,6 @@
 package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.dto.ColorDTO;
-import nashtech.longtran.shoppingweb.payload.request.ColorAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.ColorEditRequest;
 import nashtech.longtran.shoppingweb.services.implement.ColorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

@@ -6,8 +6,6 @@ import nashtech.longtran.shoppingweb.dto.ColorDTO;
 import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Color;
 import nashtech.longtran.shoppingweb.exception.ColorIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.ColorAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.ColorEditRequest;
 import nashtech.longtran.shoppingweb.repository.ColorRepository;
 import nashtech.longtran.shoppingweb.services.IColorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class ColorServiceImp implements IColorService {
     @Override
     public ResponseDTO addNewColor(ColorDTO request) {
         ResponseDTO responseDTO = new ResponseDTO();
-        Color color = new Color(request.getColorName(), request.getColorHex());
+        Color color = new Color(request.getName(), request.getColorHex());
         try{
             colorRepository.save(color);
             responseDTO.setSuccessCode(SuccessCode.ADD_COLOR_SUCCESS);
@@ -51,7 +49,7 @@ public class ColorServiceImp implements IColorService {
         Color color = colorRepository.getColorById(request.getId())
                 .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
         try {
-            color.setName(request.getColorName());
+            color.setName(request.getName());
             color.setColorHex(request.getColorHex());
              colorRepository.save(color);
             responseDTO.setSuccessCode(SuccessCode.UPDATE_COLOR_SUCCESS);

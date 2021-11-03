@@ -1,8 +1,7 @@
 package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.dto.ProductDTO;
-import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
-import nashtech.longtran.shoppingweb.payload.request.ProductEditRequest;
+import nashtech.longtran.shoppingweb.dto.ProductDetailDTO;
 import nashtech.longtran.shoppingweb.services.implement.ProductDetailServiceImp;
 import nashtech.longtran.shoppingweb.services.implement.ProductServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/product/", method = RequestMethod.GET)
+@RequestMapping(value = "/api/v1/product/")
 public class ProductController {
     @Autowired
     ProductServiceImp productServiceImp;
@@ -42,15 +41,28 @@ public class ProductController {
         return ResponseEntity.ok(productServiceImp.getAll(pageable));
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<?> addProduct(@RequestBody ProductDTO request){
            return ResponseEntity.ok(productServiceImp.addProduct(request));
     }
 
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PostMapping("/addProductDetail")
+    public ResponseEntity<?> addProductDetail(@RequestBody ProductDetailDTO request){
+        return  ResponseEntity.ok(productDetailServiceImp.addProductDetail(request));
+    }
+
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping("/edit")
     public ResponseEntity<?> editProduct(@RequestBody ProductDTO request){
        return ResponseEntity.ok(productServiceImp.editProduct(request));
+    }
+
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PostMapping("/edit")
+    public ResponseEntity<?> editProductDetail(@RequestBody ProductDetailDTO request){
+        return ResponseEntity.ok(productDetailServiceImp.editProductDetail(request));
     }
 
     @GetMapping("/findByName")

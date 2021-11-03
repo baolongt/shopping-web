@@ -1,8 +1,6 @@
 package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.dto.OrderDTO;
-import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
-import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
 import nashtech.longtran.shoppingweb.services.implement.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

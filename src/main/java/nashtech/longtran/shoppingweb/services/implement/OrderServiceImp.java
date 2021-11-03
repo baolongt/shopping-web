@@ -9,8 +9,6 @@ import nashtech.longtran.shoppingweb.enums.EOrderStatus;
 import nashtech.longtran.shoppingweb.exception.OrderIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductDetailIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.OrderEditStatusRequest;
-import nashtech.longtran.shoppingweb.payload.request.OrderRequest;
 import nashtech.longtran.shoppingweb.repository.*;
 import nashtech.longtran.shoppingweb.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -51,7 +48,6 @@ public class OrderServiceImp implements IOrderService {
         Set<OrderDetail> orderDetailSet = new HashSet<>();
         try {
             ordersRepository.saveAndFlush(order);
-
             request.getProducts().forEach(orderProductRequest -> {
                 ProductDetail product = productDetailRepository.findById(orderProductRequest.getProductDetailID())
                         .orElseThrow(() -> new ProductDetailIdNotFoundException(ErrorCode.ERR_PRODUCT_DETAIL_ID_NOT_FOUND));
@@ -107,7 +103,7 @@ public class OrderServiceImp implements IOrderService {
     @Override
     public ResponseDTO getAll(Pageable pageable) {
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(ordersRepository.findAll(pageable).getContent());
+        responseDTO.setData(ordersRepository.findAll(pageable));
         responseDTO.setData(SuccessCode.RETRIEVE_ORDER_SUCCESS);
         return responseDTO;
     }

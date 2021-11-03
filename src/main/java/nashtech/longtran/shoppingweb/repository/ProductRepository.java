@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    Optional<Product> findProductById (Integer id);
     List<Product> findAllByNameContaining(String name, Pageable pageable);
-    Optional<Product> findById(Integer id);
     List<Product> findByCategoriesIn(Collection<Category> categories, Pageable pageable);
 }

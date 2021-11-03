@@ -1,6 +1,6 @@
 package nashtech.longtran.shoppingweb.restcontroller;
 
-import nashtech.longtran.shoppingweb.payload.request.CategoryEditRequest;
+import nashtech.longtran.shoppingweb.dto.CategoryDTO;
 import nashtech.longtran.shoppingweb.services.implement.CategoryServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +36,7 @@ public class CategoryController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editCategory(@RequestBody CategoryEditRequest request){
+    public ResponseEntity<?> editCategory(@RequestBody @Valid CategoryDTO request){
         return ResponseEntity.ok(categoryServiceImp.editCategory(request));
     }
 

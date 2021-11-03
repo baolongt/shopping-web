@@ -2,12 +2,12 @@ package nashtech.longtran.shoppingweb.services.implement;
 
 import nashtech.longtran.shoppingweb.constant.ErrorCode;
 import nashtech.longtran.shoppingweb.constant.SuccessCode;
+import nashtech.longtran.shoppingweb.dto.RatingDTO;
 import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.Rating;
 import nashtech.longtran.shoppingweb.entity.User;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
-import nashtech.longtran.shoppingweb.payload.request.RatingRequest;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.repository.RatingRepository;
 import nashtech.longtran.shoppingweb.repository.UserRepository;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RatingServiceImp implements IRatingService {
@@ -32,7 +30,7 @@ public class RatingServiceImp implements IRatingService {
     ProductRepository productRepository;
 
     @Override
-    public ResponseDTO addRating(RatingRequest request) {
+    public ResponseDTO addRating(RatingDTO request) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(()  -> new UsernameNotFoundException(request.getUsername()));

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 public class ColorDTO {
     Integer id;
     @NotBlank(message = "Name must not be blank")
-    String colorName;
+    String name;
     @NotBlank(message = "Color hex must not be blank")
     String colorHex;
 }

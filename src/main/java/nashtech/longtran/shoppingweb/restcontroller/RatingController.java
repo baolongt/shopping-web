@@ -1,6 +1,6 @@
 package nashtech.longtran.shoppingweb.restcontroller;
 
-import nashtech.longtran.shoppingweb.payload.request.RatingRequest;
+import nashtech.longtran.shoppingweb.dto.RatingDTO;
 import nashtech.longtran.shoppingweb.services.implement.RatingServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +20,7 @@ public class RatingController {
     RatingServiceImp ratingServiceImp;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addNewRating(@RequestBody RatingRequest request){
+    public ResponseEntity<?> addNewRating(@RequestBody @Valid RatingDTO request){
         return ResponseEntity.ok(ratingServiceImp.addRating(request));
     }
 
