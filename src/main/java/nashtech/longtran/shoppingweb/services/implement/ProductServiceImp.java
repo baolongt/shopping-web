@@ -12,18 +12,23 @@ import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.exception.BrandIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.CategoryIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
+import nashtech.longtran.shoppingweb.payload.request.ProductAddingRequest;
 import nashtech.longtran.shoppingweb.repository.BrandRepository;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.repository.ProductDetailRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.services.IProductService;
+import nashtech.longtran.shoppingweb.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImp implements IProductService {
@@ -45,6 +50,9 @@ public class ProductServiceImp implements IProductService {
     @Autowired
     ProductDetailConverter productDetailConverter;
 
+    @Autowired
+    ProductSpecification productSpecification;
+
     @Override
     public ResponseDTO getAll(Pageable pageable) {
         ResponseDTO responseDTO = new ResponseDTO();
@@ -55,17 +63,18 @@ public class ProductServiceImp implements IProductService {
     }
 
     @Override
-    public ResponseDTO addProduct(ProductDTO request) throws BrandIdNotFoundException{
+    public ResponseDTO addProduct(ProductAddingRequest request) throws BrandIdNotFoundException{
         ResponseDTO responseDTO = new ResponseDTO();
         Timestamp current = new Timestamp(System.currentTimeMillis());
-        Brand brand = brandRepository.getBrandById(request.getBrand().getId())
+        Brand brand = brandRepository.getBrandById(request.getBrandID())
                 .orElseThrow(()->new BrandIdNotFoundException(ErrorCode.ERR_BRAND_ID_NOT_FOUND));
-
         try {
             Product newProduct = new Product(request.getName(), brand, request.getDetail(), current, current);
+            Set<Category> categoryList = new HashSet<>(categoryRepository
+                    .findAllById(request.getCategories()));
+            newProduct.setCategories(categoryList);
             productRepository.saveAndFlush(newProduct);
             responseDTO.setSuccessCode(SuccessCode.ADD_PRODUCT_SUCCESS);
-
         }
         catch (Exception e){
             responseDTO.setErrorCode(ErrorCode.ERR_SAVE_PRODUCT);
@@ -106,8 +115,13 @@ public class ProductServiceImp implements IProductService {
 
     @Override
     public ResponseDTO findByName(String name, Pageable pageable) {
+        if(name.trim().isEmpty()){
+            return getAll(pageable);
+        }
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData( productRepository.findAllByNameContaining(name, pageable));
+        Page<Product> productList =  productRepository.findAllByNameContaining(name, pageable);
+        productList.stream().forEach(product -> productConverter.convertToDTO(product)); ;
+        responseDTO.setData(productList);
         responseDTO.setSuccessCode(SuccessCode.RETRIEVE_PRODUCT_SUCCESS);
         return responseDTO;
     }

@@ -19,4 +19,5 @@ public class ProductDetailDTO {
     private Integer quantity;
     @NotBlank(message = "Price must not be blank")
     private Float price;
+    private String imgURL;
 }

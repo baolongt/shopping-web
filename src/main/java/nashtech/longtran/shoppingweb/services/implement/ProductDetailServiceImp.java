@@ -35,7 +35,7 @@ public class ProductDetailServiceImp implements IProductDetailService {
                 .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
         Color color = colorRepository.findById(request.getColor().getId())
                 .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
-        ProductDetail newProductDetail = new ProductDetail(product, color, request.getSize(), request.getQuantity(), request.getPrice());
+        ProductDetail newProductDetail = new ProductDetail(product, color, request.getSize(), request.getQuantity(), request.getPrice(), request.getImgURL());
         try{
             productDetailRepository.save(newProductDetail);
             responseDTO.setSuccessCode(SuccessCode.ADD_PRODUCT_DETAIL_SUCCESS);

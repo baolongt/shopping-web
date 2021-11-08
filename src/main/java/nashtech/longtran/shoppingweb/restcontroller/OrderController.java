@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class OrderController {
     @Autowired
     OrderServiceImp orderServiceImp;
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/makeOrder")
     public ResponseEntity<?> makeOrder(@RequestBody OrderDTO request){
         return  ResponseEntity.ok( orderServiceImp.makeOrder(request));

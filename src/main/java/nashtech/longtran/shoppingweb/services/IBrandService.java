@@ -5,7 +5,7 @@ import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import org.springframework.data.domain.Pageable;
 
 public interface IBrandService {
-    ResponseDTO getAll(Pageable pageable);
+    ResponseDTO getAll();
     ResponseDTO addNewBrand(BrandDTO request);
     ResponseDTO editBrand(BrandDTO request);
 }

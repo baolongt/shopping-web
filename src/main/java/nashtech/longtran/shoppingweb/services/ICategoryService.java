@@ -5,7 +5,9 @@ import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import org.springframework.data.domain.Pageable;
 
 public interface ICategoryService {
-    ResponseDTO getAll(Pageable pageable);
+    ResponseDTO getParentCategory();
+    ResponseDTO getChildCategory(Integer parentID);
+    ResponseDTO getAll();
     ResponseDTO addCategory(String name, Integer parentID);
     ResponseDTO editCategory(CategoryDTO request);
 }

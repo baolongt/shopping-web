@@ -8,9 +8,13 @@ import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.exception.CategoryIdNotFoundException;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.services.ICategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImp implements ICategoryService {
@@ -18,10 +22,34 @@ public class CategoryServiceImp implements ICategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
-    public ResponseDTO getAll(Pageable pageable) {
+    public ResponseDTO getParentCategory() {
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(categoryRepository.findAll(pageable).getContent());
+        List<CategoryDTO> categoryList = categoryRepository
+                .findByParentIDIsNull()
+                .stream()
+                .map(c -> modelMapper.map(c, CategoryDTO.class))
+                .collect(Collectors.toList());
+        responseDTO.setData(categoryList);
+        responseDTO.setSuccessCode(SuccessCode.RETRIEVE_CATEGORY_SUCCESS);
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getChildCategory(Integer parentID) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(categoryRepository.findByParentID(parentID));
+        responseDTO.setSuccessCode(SuccessCode.RETRIEVE_CATEGORY_SUCCESS);
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getAll() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(categoryRepository.findAll());
         responseDTO.setSuccessCode(SuccessCode.RETRIEVE_CATEGORY_SUCCESS);
         return responseDTO;
     }

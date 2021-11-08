@@ -24,10 +24,8 @@ public class Product {
     @Column(name = "product_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {
-            CascadeType.ALL
-    })
-    @JoinColumn(name = "brand_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name="brand_id", nullable=false)
     private Brand brand;
 
     @Column(name = "product_detail")

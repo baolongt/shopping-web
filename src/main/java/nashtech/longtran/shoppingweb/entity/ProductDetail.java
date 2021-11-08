@@ -36,11 +36,15 @@ public class ProductDetail {
     @Column(name = "price")
     private Float price;
 
-    public ProductDetail(Product product, Color color, String size, Integer quantity, Float price) {
+    @Column(name = "imgurl")
+    private String imgURL;
+
+    public ProductDetail(Product product, Color color, String size, Integer quantity, Float price, String imgURL) {
         this.product = product;
         this.color = color;
         this.size = size;
         this.quantity = quantity;
         this.price = price;
+        this.imgURL = imgURL;
     }
 }

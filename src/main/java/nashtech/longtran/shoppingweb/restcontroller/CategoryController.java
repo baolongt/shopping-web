@@ -2,6 +2,7 @@ package nashtech.longtran.shoppingweb.restcontroller;
 
 import nashtech.longtran.shoppingweb.dto.CategoryDTO;
 import nashtech.longtran.shoppingweb.services.implement.CategoryServiceImp;
+import net.bytebuddy.TypeCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api/v1/category/")
 public class CategoryController {
@@ -20,11 +22,18 @@ public class CategoryController {
     CategoryServiceImp categoryServiceImp;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getCategoryById(@RequestParam Optional<Integer> page,
-                                             @RequestParam Optional<Integer> offset){
+    public ResponseEntity<?> getCategoryById(){
+        return ResponseEntity.ok(categoryServiceImp.getAll());
+    }
 
-        Pageable pageable = PageRequest.of(page.orElse(0), offset.orElse(10), Sort.by("name").ascending());
-        return ResponseEntity.ok(categoryServiceImp.getAll(pageable));
+    @GetMapping("/getParent")
+    public ResponseEntity<?> getParentCategory(){
+        return ResponseEntity.ok(categoryServiceImp.getParentCategory());
+    }
+
+    @GetMapping("/getSubCategory")
+    public ResponseEntity<?> getSubCategory(@RequestParam Integer parentId){
+        return ResponseEntity.ok(categoryServiceImp.getChildCategory(parentId));
     }
 
     @PostMapping("/add")

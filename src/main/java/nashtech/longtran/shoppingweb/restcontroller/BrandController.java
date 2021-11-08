@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api/v1/brand/")
 public class BrandController {
@@ -20,22 +21,8 @@ public class BrandController {
     BrandServiceImp brandServiceImp;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAll(
-            @RequestParam Optional<Integer> page,
-            @RequestParam Optional<Integer> offset,
-            @RequestParam Optional<String> sortBy,
-            @RequestParam Optional<String> order){
-        Pageable pageable;
-        if (order.orElse("").toLowerCase().equals("desc")) {
-            pageable = PageRequest.of(page.orElse(0),
-                    offset.orElse(10),
-                    Sort.by(sortBy.orElse("id")).descending());
-        } else {
-            pageable = PageRequest.of(page.orElse(0),
-                    offset.orElse(10),
-                    Sort.by(sortBy.orElse("id")).ascending());
-        }
-        return ResponseEntity.ok(brandServiceImp.getAll(pageable));
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(brandServiceImp.getAll());
     }
 
     @PostMapping("/add")
