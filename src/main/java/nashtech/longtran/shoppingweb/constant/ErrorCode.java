@@ -6,6 +6,7 @@ public class ErrorCode {
     public static final String ERR_UPDATE_BRAND = "ERR_UPDATE_BRAND";
 
     public static final String ERR_CATEGORY_ID_NOT_FOUND = "ERR_CATEGORY_ID_NOT_FOUND";
+    public static final String ERR_CATEGORY_NAME_NOT_FOUND = "ERR_CATEGORY_NAME_NOT_FOUND";
     public static final String ERR_SAVE_CATEGORY = "ERR_SAVE_CATEGORY";
     public static final String ERR_UPDATE_CATEGORY = "ERR_UPDATE_CATEGORY";
 

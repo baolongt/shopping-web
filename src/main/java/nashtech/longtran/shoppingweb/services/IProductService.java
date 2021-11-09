@@ -11,5 +11,5 @@ public interface IProductService {
     ResponseDTO editProduct(ProductDTO product);
     ResponseDTO getByID(int productID);
     ResponseDTO findByName(String name, Pageable pageable);
-    ResponseDTO getByCategories(int[] categoryID , Pageable pageable);
+    ResponseDTO getByCategory(String category , Pageable pageable);
 }

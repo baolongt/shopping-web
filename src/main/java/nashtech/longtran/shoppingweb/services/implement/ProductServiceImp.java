@@ -127,15 +127,11 @@ public class ProductServiceImp implements IProductService {
     }
 
     @Override
-    public ResponseDTO getByCategories(int[] categoriesID, Pageable pageable) {
+    public ResponseDTO getByCategory(String categoryName, Pageable pageable) {
         ResponseDTO responseDTO = new ResponseDTO();
-        Set<Category> categories  = new HashSet<>();
-        for (int categoryID : categoriesID) {
-            Category category = categoryRepository.findById(categoryID)
-                    .orElseThrow(() ->new CategoryIdNotFoundException(ErrorCode.ERR_CATEGORY_ID_NOT_FOUND));
-            categories.add(category);
-        }
-        responseDTO.setData(productRepository.findByCategoriesIn(categories,pageable));
+            Category category = categoryRepository.findByName(categoryName)
+                    .orElseThrow(() ->new CategoryIdNotFoundException(ErrorCode.ERR_CATEGORY_NAME_NOT_FOUND));
+        responseDTO.setData(productRepository.findByCategories_Id(category.getId(),pageable));
         responseDTO.setSuccessCode(SuccessCode.RETRIEVE_PRODUCT_SUCCESS);
         return responseDTO;
     }
