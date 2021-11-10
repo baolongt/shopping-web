@@ -6,13 +6,15 @@ import nashtech.longtran.shoppingweb.dto.CategoryDTO;
 import nashtech.longtran.shoppingweb.dto.ResponseDTO;
 import nashtech.longtran.shoppingweb.entity.Category;
 import nashtech.longtran.shoppingweb.exception.CategoryIdNotFoundException;
+import nashtech.longtran.shoppingweb.payload.response.CategoryResponse;
+import nashtech.longtran.shoppingweb.payload.response.SubCategoryResponse;
 import nashtech.longtran.shoppingweb.repository.CategoryRepository;
 import nashtech.longtran.shoppingweb.services.ICategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +51,19 @@ public class CategoryServiceImp implements ICategoryService {
     @Override
     public ResponseDTO getAll() {
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(categoryRepository.findAll());
+        List<Category> categories = categoryRepository.findByParentIDIsNull();
+        List<CategoryResponse> categoryResponse = categories
+                .stream()
+                .map(c -> modelMapper.map(c, CategoryResponse.class))
+                .map(pCate -> {
+                    pCate.setSubCategories(new ArrayList<>());
+                    categoryRepository.findByParentID(pCate.getId())
+                            .forEach(subCategory -> pCate
+                                    .getSubCategories()
+                                    .add(modelMapper.map(subCategory, SubCategoryResponse.class)));
+                    return pCate;
+                }).collect(Collectors.toList());
+        responseDTO.setData(categoryResponse);
         responseDTO.setSuccessCode(SuccessCode.RETRIEVE_CATEGORY_SUCCESS);
         return responseDTO;
     }
