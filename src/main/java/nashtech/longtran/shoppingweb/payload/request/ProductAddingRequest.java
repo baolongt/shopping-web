@@ -17,5 +17,5 @@ public class ProductAddingRequest {
     private Integer brandID;
     private String detail;
     @NotBlank(message = "Category may not be blank")
-    private Set<Integer> categories;
+    private Integer categoryID;
 }

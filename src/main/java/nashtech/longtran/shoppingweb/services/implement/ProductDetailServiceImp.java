@@ -4,12 +4,9 @@ import nashtech.longtran.shoppingweb.constant.ErrorCode;
 import nashtech.longtran.shoppingweb.constant.SuccessCode;
 import nashtech.longtran.shoppingweb.dto.ProductDetailDTO;
 import nashtech.longtran.shoppingweb.dto.ResponseDTO;
-import nashtech.longtran.shoppingweb.entity.Color;
 import nashtech.longtran.shoppingweb.entity.Product;
 import nashtech.longtran.shoppingweb.entity.ProductDetail;
-import nashtech.longtran.shoppingweb.exception.ColorIdNotFoundException;
 import nashtech.longtran.shoppingweb.exception.ProductIdNotFoundException;
-import nashtech.longtran.shoppingweb.repository.ColorRepository;
 import nashtech.longtran.shoppingweb.repository.ProductDetailRepository;
 import nashtech.longtran.shoppingweb.repository.ProductRepository;
 import nashtech.longtran.shoppingweb.services.IProductDetailService;
@@ -25,17 +22,13 @@ public class ProductDetailServiceImp implements IProductDetailService {
     @Autowired
     ProductRepository productRepository;
 
-    @Autowired
-    ColorRepository colorRepository;
-
     @Override
     public ResponseDTO addProductDetail(ProductDetailDTO request) {
         ResponseDTO responseDTO = new ResponseDTO();
         Product product = productRepository.findById(request.getProductID())
                 .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
-        Color color = colorRepository.findById(request.getColor().getId())
-                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
-        ProductDetail newProductDetail = new ProductDetail(product, color, request.getSize(), request.getQuantity(), request.getPrice(), request.getImgURL());
+        ProductDetail newProductDetail = new ProductDetail(product, request.getColor(), request.getSize(),
+                request.getQuantity(), request.getPrice(), request.getImgURL());
         try{
             productDetailRepository.save(newProductDetail);
             responseDTO.setSuccessCode(SuccessCode.ADD_PRODUCT_DETAIL_SUCCESS);
@@ -52,10 +45,8 @@ public class ProductDetailServiceImp implements IProductDetailService {
         ResponseDTO responseDTO = new ResponseDTO();
         ProductDetail productDetail = productDetailRepository.findById(request.getId())
                 .orElseThrow(() -> new ProductIdNotFoundException(ErrorCode.ERR_PRODUCT_ID_NOT_FOUND));
-        Color color = colorRepository.findById(request.getColor().getId())
-                .orElseThrow(() -> new ColorIdNotFoundException(ErrorCode.ERR_COLOR_ID_NOT_FOUND));
         try {
-            productDetail.setColor(color);
+            productDetail.setColor(request.getColor());
             productDetail.setSize(request.getSize());
             productDetail.setQuantity(request.getQuantity());
             productDetail.setPrice(request.getPrice());

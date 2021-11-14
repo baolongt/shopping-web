@@ -37,14 +37,9 @@ public class Product {
     @Column(name = "updated_date")
     private Timestamp updatedDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.ALL
-    })
-    @JoinTable(name = "products_categories",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
 
     @OneToMany(mappedBy = "product")
     private Set<ProductDetail> productDetails;
@@ -66,7 +61,7 @@ public class Product {
                 ", detail='" + detail + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
-                ", categories=" + categories +
+                ", categories=" + category +
                 '}';
     }
 }

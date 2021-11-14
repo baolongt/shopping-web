@@ -23,9 +23,7 @@ public class ProductDetail {
     @JoinColumn(name = "product_id", nullable=false)
     private Product product;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "color_id", referencedColumnName = "color_id")
-    private Color color;
+    private String color;
 
     @Column(name = "size")
     private String size;
@@ -39,7 +37,7 @@ public class ProductDetail {
     @Column(name = "imgurl")
     private String imgURL;
 
-    public ProductDetail(Product product, Color color, String size, Integer quantity, Float price, String imgURL) {
+    public ProductDetail(Product product, String color, String size, Integer quantity, Float price, String imgURL) {
         this.product = product;
         this.color = color;
         this.size = size;

@@ -16,5 +16,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
     Optional<Product> findProductById (Integer id);
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
-    Page<Product> findByCategories_Id(Integer id, Pageable pageable);
+    Page<Product> findByCategory_Id(Integer id, Pageable pageable);
 }

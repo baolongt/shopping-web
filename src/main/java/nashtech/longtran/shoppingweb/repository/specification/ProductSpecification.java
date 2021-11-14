@@ -1,9 +1,10 @@
-package nashtech.longtran.shoppingweb.specification;
+package nashtech.longtran.shoppingweb.repository.specification;
 
 import nashtech.longtran.shoppingweb.dto.ProductDTO;
 import nashtech.longtran.shoppingweb.entity.Product;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;

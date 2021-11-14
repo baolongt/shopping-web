@@ -68,7 +68,7 @@ public class ProductController {
         return ResponseEntity.ok(productDetailServiceImp.editProductDetail(request));
     }
 
-//    @GetMapping("/findByName")
+    @GetMapping("/findByName")
     public ResponseEntity<?> findByName(@RequestParam String name,
                                         @RequestParam Optional<Integer> page,
                                         @RequestParam Optional<Integer> offset){

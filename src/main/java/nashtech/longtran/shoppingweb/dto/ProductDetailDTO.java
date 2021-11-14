@@ -11,8 +11,8 @@ public class ProductDetailDTO {
     private Integer id;
     @NotBlank(message = "Product's id must not be blank")
     private Integer productID;
-    @NotBlank(message = "Color's id must not be blank")
-    private ColorDTO color;
+    @NotBlank(message = "Color must not be blank")
+    private String color;
     @NotBlank(message = "Size must not be blank")
     private String size;
     @NotBlank(message = "Quantity must not be blank")
